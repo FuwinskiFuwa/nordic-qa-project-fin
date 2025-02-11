@@ -1,0 +1,95 @@
+fuwa@fuwa-Nest:~/repos/nordic-qa-project-fin/postman$ newman run restful-booker.postman_collection.json 
+newman
+
+restful-booker
+
+→ POST - Auth - CreateToken
+  POST https://restful-booker.herokuapp.com/auth/ [200 OK, 780B, 900ms]
+  ┌
+  │ 'Token saved:', '07685fc9ab7cbc0'
+  └
+  ✓  Status code is 200
+  ✓  Response has token
+  ✓  Content-Type is JSON
+  ✓  Token is saved in collection variables
+
+→ POST - Booking - CreateBooking
+  POST https://restful-booker.herokuapp.com/booking/ [200 OK, 954B, 211ms]
+  ┌
+  │ 'Variables saved:', { firstname: 'Jerma', lastname
+  │ : 'Svenska', bookingid: 564 }
+  └
+  ✓  Status code is 200
+  ✓  Response contains bookingid and booking object
+  ✓  Booking details are correct
+  ✓  Collection variables are saved correctly
+
+→ PUT - Booking - UpdateBooking
+  ┌
+  │ 'Used token:', '07685fc9ab7cbc0'
+  │ 'Used Id:', 564
+  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/564'
+  └
+  PUT https://restful-booker.herokuapp.com/booking/564 [200 OK, 923B, 232ms]
+  ✓  Status code is 200
+  ✓  Response contains updated booking details
+  ✓  Content-Type is JSON
+  ✓  Auth token is included in request
+
+→ GET - Booking - GetBooking
+  ┌
+  │ 'Used Id:', 564
+  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/564'
+  └
+  GET https://restful-booker.herokuapp.com/booking/564 [200 OK, 923B, 227ms]
+  ✓  Status code is 200
+  ✓  Response contains expected booking details
+  ✓  Content-Type is JSON
+  ✓  Requested booking ID matches response
+
+→ DELETE - Booking - DeleteBooking
+  ┌
+  │ 'Used token:', '07685fc9ab7cbc0'
+  │ 'Used Id:', 564
+  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/564'
+  └
+  DELETE https://restful-booker.herokuapp.com/booking/564 [201 Created, 757B, 216ms]
+  ✓  Status code is 201
+  ✓  Response body contains "Created"
+  ✓  Content-Type header exists
+  ✓  Booking is deleted (GET should return 404)
+  GET https://restful-booker.herokuapp.com/booking/564 [404 Not Found, 761B, 246ms]
+
+→ GET - Booking - CheckGetBookingAfterDeleteAction
+  ┌
+  │ 'Used Id:', 564
+  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/564'
+  └
+  GET https://restful-booker.herokuapp.com/booking/564 [404 Not Found, 757B, 229ms]
+  ✓  Status code is 404
+  ✓  Response body contains "Not Found"
+  ✓  Content-Type header exists
+  ✓  Booking ID is valid
+
+┌─────────────────────────┬─────────────────────┬────────────────────┐
+│                         │            executed │             failed │
+├─────────────────────────┼─────────────────────┼────────────────────┤
+│              iterations │                   1 │                  0 │
+├─────────────────────────┼─────────────────────┼────────────────────┤
+│                requests │                   7 │                  0 │
+├─────────────────────────┼─────────────────────┼────────────────────┤
+│            test-scripts │                  12 │                  0 │
+├─────────────────────────┼─────────────────────┼────────────────────┤
+│      prerequest-scripts │                  11 │                  0 │
+├─────────────────────────┼─────────────────────┼────────────────────┤
+│              assertions │                  24 │                  0 │
+├─────────────────────────┴─────────────────────┴────────────────────┤
+│ total run duration: 2.8s                                           │
+├────────────────────────────────────────────────────────────────────┤
+│ total data received: 590B (approx)                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ average response time: 323ms [min: 211ms, max: 900ms, s.d.: 235ms] │
+└────────────────────────────────────────────────────────────────────┘
+fuwa@fuwa-Nest:~/repos/nordic-qa-project-fin/postman$ 
+
+
