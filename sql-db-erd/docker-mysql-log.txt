@@ -1,0 +1,154 @@
+fuwa@fuwa-Nest:~$ sudo docker exec -it mysql-container mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 19
+Server version: 9.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE DATABASE bspb_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Query OK, 1 row affected (0.14 sec)
+
+mysql> SHOW CREATE DATABASE bspb_db;
++----------+-----------------------------------------------------------------------------------------------------------------------------------+
+| Database | Create Database                                                                                                                   |
++----------+-----------------------------------------------------------------------------------------------------------------------------------+
+| bspb_db  | CREATE DATABASE `bspb_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */ |
++----------+-----------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> USE bspb_db;
+Database changed
+mysql> CREATE TABLE users(
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     login VARCHAR(50) NOT NULL UNIQUE,
+    ->     phone_number VARCHAR(50) NOT NULL UNIQUE,
+    ->     password_hash VARCHAR(255) NOT NULL,
+    ->     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.71 sec)
+
+mysql> CREATE TABLE user_profiles(
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     user_id INT NOT NULL,
+    ->     user_first_name VARCHAR(50) NOT NULL,
+    ->     user_last_name VARCHAR(50) NOT NULL,
+    ->     user_middle_name VARCHAR(50) NULL,
+    ->     user_email VARCHAR(255) NULL UNIQUE,
+    ->     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (0.62 sec)
+
+mysql> CREATE TABLE user_bank_cards(
+    ->     id  INT AUTO_INCREMENT PRIMARY KEY,
+    ->     user_id INT NOT NULL,
+    ->     card_number VARCHAR(19) NOT NULL UNIQUE,
+    ->     card_balance DECIMAL(10, 2) NOT NULL,
+    ->     expiry_date DATE NOT NULL,
+    ->     cvv_hash VARCHAR(255) NOT NULL,
+    ->     card_type VARCHAR(50) NOT NULL,
+    ->     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (0.60 sec)
+
+mysql> CREATE TABLE user_messages(
+    ->     id  INT AUTO_INCREMENT PRIMARY KEY,
+    ->     sender_id INT NOT NULL,
+    ->     reciever_id INT NOT NULL,
+    ->     message_text TEXT,
+    ->     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ->     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    ->     FOREIGN KEY (reciever_id) REFERENCES users(id) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (0.69 sec)
+
+mysql> INSERT INTO users (login, phone_number, password_hash) VALUES
+    -> ('BlueSkyRider', '1234567890', 'hashed_password123'),
+    -> ('quantumpulseX', '9876543210', 'hashed_securepassword'),
+    -> ('neonecho21', '1122334455', 'hashed_mystrongpassword');
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> INSERT INTO user_profiles (user_id, user_first_name, user_last_name, user_email) VALUES
+    -> (1, 'Ivan', 'Ivanov', 'ivan.ivanov@example.com'),
+    -> (2, 'Nikolai', 'Nikolaev', 'nikolai.nikolaev@example.com'),
+    -> (3, 'Vasiliy', 'Vasilyev', 'vasiliy.vasilyev@example.com');
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> INSERT INTO user_bank_cards (user_id, card_number, card_balance, expiry_date, cvv_hash, card_type) VALUES
+    -> (1, '1234567890123456', 1000.00, '2025-12-31', 'hashed_cvv1', 'Visa'),
+    -> (2, '2345678901234567', 500.00, '2024-06-30', 'hashed_cvv2', 'MasterCard'),
+    -> (3, '3456789012345678', 2500.00, '2026-01-01', 'hashed_cvv3', 'Mir');
+Query OK, 3 rows affected (0.13 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> INSERT INTO user_messages (sender_id, reciever_id, message_text) VALUES
+    -> (1, 2, 'Hello!'),
+    -> (2, 1, 'Good evening!!'),
+    -> (3, 1, 'How are you?');
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM users;
++----+---------------+--------------+-------------------------+---------------------+
+| id | login         | phone_number | password_hash           | created_at          |
++----+---------------+--------------+-------------------------+---------------------+
+|  1 | BlueSkyRider  | 1234567890   | hashed_password123      | 2025-02-11 23:23:43 |
+|  2 | quantumpulseX | 9876543210   | hashed_securepassword   | 2025-02-11 23:23:43 |
+|  3 | neonecho21    | 1122334455   | hashed_mystrongpassword | 2025-02-11 23:23:43 |
++----+---------------+--------------+-------------------------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM user_profiles;
++----+---------+-----------------+----------------+------------------+------------------------------+
+| id | user_id | user_first_name | user_last_name | user_middle_name | user_email                   |
++----+---------+-----------------+----------------+------------------+------------------------------+
+|  1 |       1 | Ivan            | Ivanov         | NULL             | ivan.ivanov@example.com      |
+|  2 |       2 | Nikolai         | Nikolaev       | NULL             | nikolai.nikolaev@example.com |
+|  3 |       3 | Vasiliy         | Vasilyev       | NULL             | vasiliy.vasilyev@example.com |
++----+---------+-----------------+----------------+------------------+------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM user_bank_cards;
++----+---------+------------------+--------------+-------------+-------------+------------+
+| id | user_id | card_number      | card_balance | expiry_date | cvv_hash    | card_type  |
++----+---------+------------------+--------------+-------------+-------------+------------+
+|  1 |       1 | 1234567890123456 |      1000.00 | 2025-12-31  | hashed_cvv1 | Visa       |
+|  2 |       2 | 2345678901234567 |       500.00 | 2024-06-30  | hashed_cvv2 | MasterCard |
+|  3 |       3 | 3456789012345678 |      2500.00 | 2026-01-01  | hashed_cvv3 | Mir        |
++----+---------+------------------+--------------+-------------+-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM user_messages;
++----+-----------+-------------+----------------+---------------------+
+| id | sender_id | reciever_id | message_text   | sent_at             |
++----+-----------+-------------+----------------+---------------------+
+|  1 |         1 |           2 | Hello!         | 2025-02-11 23:23:45 |
+|  2 |         2 |           1 | Good evening!! | 2025-02-11 23:23:45 |
+|  3 |         3 |           1 | How are you?   | 2025-02-11 23:23:45 |
++----+-----------+-------------+----------------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
