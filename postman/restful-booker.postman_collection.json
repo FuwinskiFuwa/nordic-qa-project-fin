@@ -79,12 +79,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://restful-booker.herokuapp.com/auth/",
-					"protocol": "https",
+					"raw": "{{base_url}}/auth/",
 					"host": [
-						"restful-booker",
-						"herokuapp",
-						"com"
+						"{{base_url}}"
 					],
 					"path": [
 						"auth",
@@ -143,8 +140,8 @@
 							"\r",
 							"    pm.expect(jsonData.booking.firstname).to.eql(requestData.firstname);\r",
 							"    pm.expect(jsonData.booking.lastname).to.eql(requestData.lastname);\r",
-							"    pm.expect(jsonData.booking.totalprice).to.eql(requestData.totalprice);\r",
-							"    pm.expect(jsonData.booking.depositpaid).to.eql(requestData.depositpaid);\r",
+							"    pm.expect(jsonData.booking.totalprice).to.eql(Number(requestData.totalprice));\r",
+							"    pm.expect(jsonData.booking.depositpaid).to.eql(requestData.depositpaid === \"true\");\r",
 							"    pm.expect(jsonData.booking.bookingdates.checkin).to.eql(requestData.bookingdates.checkin);\r",
 							"    pm.expect(jsonData.booking.bookingdates.checkout).to.eql(requestData.bookingdates.checkout);\r",
 							"    pm.expect(jsonData.booking.additionalneeds).to.eql(requestData.additionalneeds);\r",
@@ -175,7 +172,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstname\" : \"Jerma\",\r\n    \"lastname\" : \"Svenska\",\r\n    \"totalprice\" : 276,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2025-04-01\",\r\n        \"checkout\" : \"2025-01-08\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+					"raw": "{\r\n    \"firstname\" : \"{{var_firstname}}\",\r\n    \"lastname\" : \"{{var_lastname}}\",\r\n    \"totalprice\" : \"{{var_totalprice}}\",\r\n    \"depositpaid\" : \"{{var_depositpaid}}\",\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"{{var_checkin}}\",\r\n        \"checkout\" : \"{{var_checkout}}\"\r\n    },\r\n    \"additionalneeds\" : \"{{var_add_needs}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -183,12 +180,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://restful-booker.herokuapp.com/booking/",
-					"protocol": "https",
+					"raw": "{{base_url}}/booking/",
 					"host": [
-						"restful-booker",
-						"herokuapp",
-						"com"
+						"{{base_url}}"
 					],
 					"path": [
 						"booking",
@@ -247,8 +241,8 @@
 							"\r",
 							"    pm.expect(jsonData.firstname).to.eql(requestData.firstname);\r",
 							"    pm.expect(jsonData.lastname).to.eql(requestData.lastname);\r",
-							"    pm.expect(jsonData.totalprice).to.eql(requestData.totalprice);\r",
-							"    pm.expect(jsonData.depositpaid).to.eql(requestData.depositpaid);\r",
+							"    pm.expect(jsonData.totalprice).to.eql(Number(requestData.totalprice));\r",
+							"    pm.expect(jsonData.depositpaid).to.eql(requestData.depositpaid === \"true\");\r",
 							"    pm.expect(jsonData.bookingdates.checkin).to.eql(requestData.bookingdates.checkin);\r",
 							"    pm.expect(jsonData.bookingdates.checkout).to.eql(requestData.bookingdates.checkout);\r",
 							"    pm.expect(jsonData.additionalneeds).to.eql(requestData.additionalneeds);\r",
@@ -291,7 +285,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstname\" : \"Jerma\",\r\n    \"lastname\" : \"Svenska\",\r\n    \"totalprice\" : 276,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2025-04-01\",\r\n        \"checkout\" : \"2025-01-05\"\r\n    },\r\n    \"additionalneeds\" : \"Dinner\"\r\n}",
+					"raw": "{\r\n    \"firstname\" : \"{{var_firstname}}\",\r\n    \"lastname\" : \"{{var_lastname}}\",\r\n    \"totalprice\" : \"{{var_totalprice}}\",\r\n    \"depositpaid\" : \"{{var_depositpaid}}\",\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"{{var_checkin}}\",\r\n        \"checkout\" : \"{{var_checkout_change}}\"\r\n    },\r\n    \"additionalneeds\" : \"{{var_add_needs_change}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -299,12 +293,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://restful-booker.herokuapp.com/booking/",
-					"protocol": "https",
+					"raw": "{{base_url}}/booking/",
 					"host": [
-						"restful-booker",
-						"herokuapp",
-						"com"
+						"{{base_url}}"
 					],
 					"path": [
 						"booking",
@@ -322,16 +313,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"const bookingid = pm.collectionVariables.get(\"var_bookingid\");\r",
-							"\r",
-							"if (!bookingid) {\r",
-							"    console.error(\"Variable not found.\");\r",
-							"} else {\r",
-							"    console.log(\"Used Id:\", bookingid);\r",
-							"    const url = `https://restful-booker.herokuapp.com/booking/${bookingid}`;\r",
-							"    pm.request.url = url;\r",
-							"    console.log(\"Set URL:\", url);\r",
-							"}"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -382,16 +364,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://restful-booker.herokuapp.com/booking/",
-					"protocol": "https",
+					"raw": "{{base_url}}/booking/{{var_bookingid}}",
 					"host": [
-						"restful-booker",
-						"herokuapp",
-						"com"
+						"{{base_url}}"
 					],
 					"path": [
 						"booking",
-						""
+						"{{var_bookingid}}"
 					]
 				},
 				"description": "Generated from cURL: curl -i https://restful-booker.herokuapp.com/booking/"
@@ -406,17 +385,12 @@
 					"script": {
 						"exec": [
 							"const token = pm.collectionVariables.get(\"auth_token\");\r",
-							"const bookingid = pm.collectionVariables.get(\"var_bookingid\");\r",
 							"\r",
-							"if (!token || !bookingid) {\r",
+							"\r",
+							"if (!token) {\r",
 							"    console.error(\"Variables error.\");\r",
 							"} else {\r",
 							"    console.log(\"Used token:\", token);\r",
-							"    console.log(\"Used Id:\", bookingid);\r",
-							"\r",
-							"    const url = `https://restful-booker.herokuapp.com/booking/${bookingid}`;\r",
-							"    pm.request.url = url;\r",
-							"    console.log(\"Set URL:\", url);\r",
 							"\r",
 							"    pm.request.headers.add({\r",
 							"        key: \"Cookie\",\r",
@@ -475,16 +449,13 @@
 					}
 				],
 				"url": {
-					"raw": "https://restful-booker.herokuapp.com/booking/",
-					"protocol": "https",
+					"raw": "{{base_url}}/booking/{{var_bookingid}}",
 					"host": [
-						"restful-booker",
-						"herokuapp",
-						"com"
+						"{{base_url}}"
 					],
 					"path": [
 						"booking",
-						""
+						"{{var_bookingid}}"
 					]
 				},
 				"description": "Generated from cURL: curl -X DELETE \\\r\n  https://restful-booker.herokuapp.com/booking/1 \\\r\n  -H 'Content-Type: application/json' \\\r\n  -H 'Cookie: token=abc123'"
@@ -550,16 +521,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://restful-booker.herokuapp.com/booking/",
-					"protocol": "https",
+					"raw": "{{base_url}}/booking/{{var_bookingid}}",
 					"host": [
-						"restful-booker",
-						"herokuapp",
-						"com"
+						"{{base_url}}"
 					],
 					"path": [
 						"booking",
-						""
+						"{{var_bookingid}}"
 					]
 				},
 				"description": "Generated from cURL: curl -i https://restful-booker.herokuapp.com/booking/"

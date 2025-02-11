@@ -1,12 +1,12 @@
-fuwa@fuwa-Nest:~/repos/nordic-qa-project-fin/postman$ newman run restful-booker.postman_collection.json 
+fuwa@fuwa-Nest:~/repos/nordic-qa-project-fin/postman$ newman run restful-booker.postman_collection.json -e restful-booker.postman_environment.json 
 newman
 
 restful-booker
 
 → POST - Auth - CreateToken
-  POST https://restful-booker.herokuapp.com/auth/ [200 OK, 780B, 900ms]
+  POST https://restful-booker.herokuapp.com/auth/ [200 OK, 780B, 1022ms]
   ┌
-  │ 'Token saved:', '07685fc9ab7cbc0'
+  │ 'Token saved:', 'd72fae385ddbf86'
   └
   ✓  Status code is 200
   ✓  Response has token
@@ -14,10 +14,10 @@ restful-booker
   ✓  Token is saved in collection variables
 
 → POST - Booking - CreateBooking
-  POST https://restful-booker.herokuapp.com/booking/ [200 OK, 954B, 211ms]
+  POST https://restful-booker.herokuapp.com/booking/ [200 OK, 953B, 184ms]
   ┌
   │ 'Variables saved:', { firstname: 'Jerma', lastname
-  │ : 'Svenska', bookingid: 564 }
+  │ : 'Svenska', bookingid: 30 }
   └
   ✓  Status code is 200
   ✓  Response contains bookingid and booking object
@@ -26,22 +26,18 @@ restful-booker
 
 → PUT - Booking - UpdateBooking
   ┌
-  │ 'Used token:', '07685fc9ab7cbc0'
-  │ 'Used Id:', 564
-  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/564'
+  │ 'Used token:', 'd72fae385ddbf86'
+  │ 'Used Id:', 30
+  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/30'
   └
-  PUT https://restful-booker.herokuapp.com/booking/564 [200 OK, 923B, 232ms]
+  PUT https://restful-booker.herokuapp.com/booking/30 [200 OK, 923B, 193ms]
   ✓  Status code is 200
   ✓  Response contains updated booking details
   ✓  Content-Type is JSON
   ✓  Auth token is included in request
 
 → GET - Booking - GetBooking
-  ┌
-  │ 'Used Id:', 564
-  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/564'
-  └
-  GET https://restful-booker.herokuapp.com/booking/564 [200 OK, 923B, 227ms]
+  GET https://restful-booker.herokuapp.com/booking/30 [200 OK, 923B, 164ms]
   ✓  Status code is 200
   ✓  Response contains expected booking details
   ✓  Content-Type is JSON
@@ -49,47 +45,45 @@ restful-booker
 
 → DELETE - Booking - DeleteBooking
   ┌
-  │ 'Used token:', '07685fc9ab7cbc0'
-  │ 'Used Id:', 564
-  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/564'
+  │ 'Used token:', 'd72fae385ddbf86'
   └
-  DELETE https://restful-booker.herokuapp.com/booking/564 [201 Created, 757B, 216ms]
+  DELETE https://restful-booker.herokuapp.com/booking/30 [201 Created, 757B, 206ms]
   ✓  Status code is 201
   ✓  Response body contains "Created"
   ✓  Content-Type header exists
   ✓  Booking is deleted (GET should return 404)
-  GET https://restful-booker.herokuapp.com/booking/564 [404 Not Found, 761B, 246ms]
+  GET https://restful-booker.herokuapp.com/booking/30 [404 Not Found, 761B, 222ms]
 
 → GET - Booking - CheckGetBookingAfterDeleteAction
   ┌
-  │ 'Used Id:', 564
-  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/564'
+  │ 'Used Id:', 30
+  │ 'Set URL:', 'https://restful-booker.herokuapp.com/booking/30'
   └
-  GET https://restful-booker.herokuapp.com/booking/564 [404 Not Found, 757B, 229ms]
+  GET https://restful-booker.herokuapp.com/booking/30 [404 Not Found, 761B, 206ms]
   ✓  Status code is 404
   ✓  Response body contains "Not Found"
   ✓  Content-Type header exists
   ✓  Booking ID is valid
 
-┌─────────────────────────┬─────────────────────┬────────────────────┐
-│                         │            executed │             failed │
-├─────────────────────────┼─────────────────────┼────────────────────┤
-│              iterations │                   1 │                  0 │
-├─────────────────────────┼─────────────────────┼────────────────────┤
-│                requests │                   7 │                  0 │
-├─────────────────────────┼─────────────────────┼────────────────────┤
-│            test-scripts │                  12 │                  0 │
-├─────────────────────────┼─────────────────────┼────────────────────┤
-│      prerequest-scripts │                  11 │                  0 │
-├─────────────────────────┼─────────────────────┼────────────────────┤
-│              assertions │                  24 │                  0 │
-├─────────────────────────┴─────────────────────┴────────────────────┤
-│ total run duration: 2.8s                                           │
-├────────────────────────────────────────────────────────────────────┤
-│ total data received: 590B (approx)                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ average response time: 323ms [min: 211ms, max: 900ms, s.d.: 235ms] │
-└────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────┬─────────────────────┬─────────────────────┐
+│                         │            executed │              failed │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│              iterations │                   1 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│                requests │                   7 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│            test-scripts │                  12 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│      prerequest-scripts │                  11 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│              assertions │                  24 │                   0 │
+├─────────────────────────┴─────────────────────┴─────────────────────┤
+│ total run duration: 2.9s                                            │
+├─────────────────────────────────────────────────────────────────────┤
+│ total data received: 589B (approx)                                  │
+├─────────────────────────────────────────────────────────────────────┤
+│ average response time: 313ms [min: 164ms, max: 1022ms, s.d.: 289ms] │
+└─────────────────────────────────────────────────────────────────────┘
 fuwa@fuwa-Nest:~/repos/nordic-qa-project-fin/postman$ 
 
 
