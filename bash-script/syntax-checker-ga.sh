@@ -1,4 +1,4 @@
-SCRIPT_FILE="test-script.sh"
+SCRIPT_FILE="bash-script/test-script.sh"
 bash -n "$SCRIPT_FILE"
 
 if [ $? -eq 0 ]; then
