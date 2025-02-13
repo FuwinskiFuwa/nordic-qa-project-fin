@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Make scripts executable
-      run: chmod +x scripts/*.sh
+      run: chmod +x bash-script/*.sh
 
     - name: Run Bash Script
       run: bash bash-script/syntax-checker.sh scripts/service-availability-script.sh
