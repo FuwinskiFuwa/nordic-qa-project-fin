@@ -21,8 +21,7 @@ jobs:
           else
             echo "README.md file exists!"
           fi      
-
-jobs:
+          
   check-syntax:
     runs-on: ubuntu-latest
 
