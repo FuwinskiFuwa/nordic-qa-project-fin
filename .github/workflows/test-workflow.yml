@@ -1,4 +1,4 @@
-name: Run Syntax Checker
+name: test-workflow
 
 on:
   push:
