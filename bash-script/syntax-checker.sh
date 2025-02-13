@@ -1,4 +1,4 @@
-SCRIPT_FILE="your_script_name.sh"
+SCRIPT_FILE="service-availability-script.sh"
 bash -n $SCRIPT_FILE
 if [ $? -eq 0 ]; then
     echo "Синтаксис скрипта в порядке."
