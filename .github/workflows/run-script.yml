@@ -17,4 +17,4 @@ jobs:
       run: chmod +x bash-script/*.sh
 
     - name: Run Syntax Checker
-      run: bash bash-script/syntax-checker.sh
+      run: bash bash-script/syntax-checker-ga.sh
