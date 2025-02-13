@@ -1,4 +1,4 @@
-SCRIPT_FILE="service-availability-script.sh"
+SCRIPT_FILE="test-script.sh"
 bash -n "$SCRIPT_FILE"
 
 if [ $? -eq 0 ]; then
