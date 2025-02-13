@@ -1,19 +1,20 @@
-name: Run Bash Script
+name: Run Syntax Checker
 
 on:
   push:
     branches:
-      - main 
+      - main
+
 jobs:
-  run-script:
+  check-syntax:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
-    - name: Make scripts executable
-      run: chmod +x bash-script/*.sh
 
-    - name: Run Bash Script
-      run: bash bash-script/syntax-checker.sh
+    - name: Make scripts executable
+      run: chmod +x scripts/*.sh
+
+    - name: Run Syntax Checker
+      run: bash scripts/syntax-checker.sh
